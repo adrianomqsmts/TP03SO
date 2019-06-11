@@ -9,15 +9,15 @@ public class Inode implements Serializable {
     private final Date criado;
     private Date modificado;
     private Date acessado;
-    private int tamanho;
+    private int tamanhoArquivo;
     private List<Integer> listaEnderecos;
 
-    public Inode(int tamanho) {
+    public Inode(int tamanhoArquivo, List<Integer> listaEnderecos) {
         this.criado = new Date(System.currentTimeMillis());
         this.modificado = new Date(System.currentTimeMillis());
         this.acessado = new Date(System.currentTimeMillis());
-        this.tamanho = tamanho;
-        this.listaEnderecos = new ArrayList<Integer>();
+        this.tamanhoArquivo = tamanhoArquivo;
+        this.listaEnderecos = listaEnderecos;
     }
 
     public boolean inserirEndereco(int endereco){
@@ -56,12 +56,12 @@ public class Inode implements Serializable {
         this.acessado = Acessado;
     }
 
-    public int getTamanho() {
-        return tamanho;
+    public int getTamanhoArquivo() {
+        return tamanhoArquivo;
     }
 
-    public void setTamanho(int tamanho) {
-        this.tamanho = tamanho;
+    public void setTamanhoArquivo(int tamanhoArquivo) {
+        this.tamanhoArquivo = tamanhoArquivo;
     }
 
 }

@@ -1,11 +1,10 @@
 package tpso3;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.commons.lang3.SerializationUtils;
 
 public class SistemaDeArquivos implements Serializable{
 
@@ -15,7 +14,11 @@ public class SistemaDeArquivos implements Serializable{
         this.hd = new Disco(tamanhoDisco, tamanhoBloco);
     }
 
-    public void criarArquivo(String caminhoArquivo){
+    public Arquivo criarArquivo(String caminhoArquivo) throws IOException {
+
+        Inode inode;
+        Diretorio diretorio;
+        List<Integer> listaEnderecos = new ArrayList<Integer>();
 
         File file = new File(caminhoArquivo);
 
@@ -23,10 +26,34 @@ public class SistemaDeArquivos implements Serializable{
 
         if(arqExiste){
             Arquivo arquivo = new Arquivo(file);
-            hd.armazenarArquivo(arquivo);
+            Diretorio.Info info;
+            inode = new Inode(arquivo.serializar().length, hd.inserirBytesBloco(arquivo.serializar(), 0, listaEnderecos));
+            diretorio = new Diretorio(file.getPath().replace(file.getName(),""));
+            info = new Diretorio.Info(file.getName(), inode);
+            diretorio.addInfo(info);
+            hd.addInode(inode);
+            hd.imprimirListaInodes();
+            hd.addDiretorio(diretorio);
+            //hd.impirmirListaDiretorios();
+
+            return arquivo;
         } else{
             System.out.println("Erro ao criar arquivo!");
+            return null;
         }
+    }
+
+    public void abrirArquivo(String caminhoDiretorio, String nomeArquivo){
+
+        Arquivo arquivo;
+        File file;
+
+        file = hd.buscarBytesBloco(caminhoDiretorio, nomeArquivo);
+
+        arquivo = new Arquivo(file);
+
+        arquivo.imprimirArquivo();
+
     }
 
     public Disco getHd() {

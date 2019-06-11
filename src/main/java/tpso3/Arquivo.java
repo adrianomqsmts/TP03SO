@@ -1,5 +1,7 @@
 package tpso3;
 
+import org.apache.commons.lang3.SerializationUtils;
+
 import java.io.*;
 
 public class Arquivo implements Serializable{
@@ -10,7 +12,7 @@ public class Arquivo implements Serializable{
         this.file = file;
     }
 
-    public void imprimirArquivo(File file){
+    public void imprimirArquivo(){
         try{
             BufferedReader br = new BufferedReader(new FileReader(file));
             while(br.ready()){
@@ -23,7 +25,11 @@ public class Arquivo implements Serializable{
         }
     }
 
-    public byte[] getBytes() {
+    public byte[] serializar() {
+        return SerializationUtils.serialize(file);
+    }
+
+/*    public byte[] getBytes() {
         int             len     = (int)file.length();
         byte[]          sendBuf = new byte[len];
         FileInputStream inFile;
@@ -36,7 +42,7 @@ public class Arquivo implements Serializable{
 
         }
         return sendBuf;
-    }
+    }*/
 
     public File getFile() {
         return file;

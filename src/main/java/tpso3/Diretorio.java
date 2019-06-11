@@ -1,18 +1,22 @@
 package tpso3;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Diretorio implements Serializable{
     
     private String nomeDiretorio;
+    private List<Info> listaInfos;
 
     public Diretorio(String nomeDiretorio) {
         this.nomeDiretorio = nomeDiretorio;
+        this.listaInfos = new ArrayList<Info>();
     }
 
-    private class Info implements Serializable{
-        String nomeArquivo;
-        Inode inode;
+    public static class Info implements Serializable{
+        private String nomeArquivo;
+        private Inode inode;
 
         public Info(String nomeArquivo, Inode inode) {
             this.nomeArquivo = nomeArquivo;
@@ -36,6 +40,18 @@ public class Diretorio implements Serializable{
         }
     }
 
+    public void addInfo(Info info){
+        listaInfos.add(info);
+    }
+
+    public List<Info> getListaInfos() {
+        return listaInfos;
+    }
+
+    public void setListaInfos(List<Info> listaInfos) {
+        this.listaInfos = listaInfos;
+    }
+
     public String getNomeDiretorio() {
         return nomeDiretorio;
     }
@@ -43,4 +59,7 @@ public class Diretorio implements Serializable{
     public void setNomeDiretorio(String nomeDiretorio) {
         this.nomeDiretorio = nomeDiretorio;
     }
+
+
+
 }

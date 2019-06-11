@@ -21,12 +21,33 @@ public class MapaDeBits {
         mapa.add(posicao, true);
     }
 
+    public int pegarPosicaoLivre(){
+        for (int i = 0; i < mapa.size();i++){
+            if(isLivre(i)){
+//                System.out.println("Retornando posição: " + i);
+                return i;
+            }
+
+        }
+        return -1;
+    }
+
     public void remover(int posicao){
         mapa.add(posicao, false);
     }
 
     public boolean isLivre(int posicao){
-        return mapa.get(posicao);
+
+        return !mapa.get(posicao);
+    }
+
+    public int qtdeBlocosLivres(){
+        int count  = 0;
+        for(Boolean bool : mapa){
+            if(!bool)
+                count++;
+        }
+        return count;
     }
 
     public List<Boolean> getMapa() {

@@ -13,11 +13,13 @@ public class MapaDeBits {
     }
 
     public void criarMapa(int tamanho){
+        mapa.clear();
         for(int i = 0; i < tamanho; i++)
             mapa.add(false);
     }
 
     public void inserir(int posicao){
+        mapa.remove(posicao);
         mapa.add(posicao, true);
     }
 
@@ -33,11 +35,11 @@ public class MapaDeBits {
     }
 
     public void remover(int posicao){
+        mapa.remove(posicao);
         mapa.add(posicao, false);
     }
 
     public boolean isLivre(int posicao){
-
         return !mapa.get(posicao);
     }
 
@@ -48,6 +50,15 @@ public class MapaDeBits {
                 count++;
         }
         return count;
+    }
+
+    public void imprimirMapa(){
+        int i = 0;
+        for (Boolean booleano : mapa ) {
+
+            System.out.println("Bloco " + i + ": " + booleano);
+            i++;
+        }
     }
 
     public List<Boolean> getMapa() {

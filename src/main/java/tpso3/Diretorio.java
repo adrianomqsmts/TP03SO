@@ -8,36 +8,36 @@ public class Diretorio implements Serializable{
     
     private String nomeDiretorio;
     private List<Info> listaInfos;
+    private List<Diretorio> listaDiretoriosFilho;
 
     public Diretorio(String nomeDiretorio) {
         this.nomeDiretorio = nomeDiretorio;
         this.listaInfos = new ArrayList<Info>();
+        this.listaDiretoriosFilho = new ArrayList<Diretorio>();
     }
 
-    public static class Info implements Serializable{
-        private String nomeArquivo;
-        private Inode inode;
 
-        public Info(String nomeArquivo, Inode inode) {
-            this.nomeArquivo = nomeArquivo;
-            this.inode = inode;
+    public Info encontrarInfo(String nomeArquivo){
+        for (Info info : listaInfos) {
+            if(info.getNomeArquivo().equals(nomeArquivo)){
+                return info;
+            }
         }
+        return null;
+    }
 
-        public String getNomeArquivo() {
-            return nomeArquivo;
-        }
+    public void removerInfo(String nomeArquivo){
+        Info info = encontrarInfo(nomeArquivo);
+        if(info != null)
+            listaInfos.remove(info);
+    }
 
-        public void setNomeArquivo(String nomeArquivo) {
-            this.nomeArquivo = nomeArquivo;
-        }
+    public List<Diretorio> getListaDiretoriosFilho() {
+        return listaDiretoriosFilho;
+    }
 
-        public Inode getInode() {
-            return inode;
-        }
-
-        public void setInode(Inode inode) {
-            this.inode = inode;
-        }
+    public void setListaDiretoriosFilho(List<Diretorio> listaDiretoriosFilho) {
+        this.listaDiretoriosFilho = listaDiretoriosFilho;
     }
 
     public void addInfo(Info info){

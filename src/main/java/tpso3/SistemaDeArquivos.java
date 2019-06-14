@@ -6,6 +6,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.System.exit;
+
 public class SistemaDeArquivos implements Serializable{
 
     private Disco hd;
@@ -26,23 +28,22 @@ public class SistemaDeArquivos implements Serializable{
 
         if(arqExiste){
             Arquivo arquivo = new Arquivo(file);
-            Diretorio.Info info;
-            inode = new Inode(arquivo.serializar().length, hd.inserirBytesBloco(arquivo.serializar(), 0, listaEnderecos));
+            Info info;
+            inode = new Inode(arquivo.serializar().length, hd.inserirBytesArquivoBloco(arquivo.serializar(), 0, listaEnderecos));
             if(hd.buscarDiretorio(file.getPath().replace(file.getName(),"")) == null){
                 diretorio = new Diretorio(file.getPath().replace(file.getName(),""));
-                info = new Diretorio.Info(file.getName(), inode);
+                info = new Info(file.getName(), inode);
                 diretorio.addInfo(info);
                 hd.addInode(inode);
                 hd.addDiretorio(diretorio);
             }else{
-                info = new Diretorio.Info(file.getName(), inode);
+                info = new Info(file.getName(), inode);
                 hd.buscarDiretorio(file.getPath().replace(file.getName(),"")).getListaInfos().add(info);
             }
 
-
 //            hd.imprimirListaInodes();
 
-            //hd.impirmirListaDiretorios();
+            hd.impirmirListaDiretorios();
 
             return arquivo;
         } else{
@@ -56,13 +57,42 @@ public class SistemaDeArquivos implements Serializable{
         Arquivo arquivo;
         File file;
 
-        file = hd.buscarBytesBloco(caminhoDiretorio, nomeArquivo);
+        file = hd.buscarBytesArquivoBloco(caminhoDiretorio, nomeArquivo);
 
+        if(file == null){
+            exit(0);
+        }
         arquivo = new Arquivo(file);
 
         arquivo.imprimirArquivo();
 
     }
+
+    public void renomearArquivo(String nomeDiretorio, String nomeArquivo, String novoNomeArquivo){
+
+        Arquivo arquivo;
+        File file;
+
+        file = hd.buscarBytesArquivoBloco(nomeDiretorio, nomeArquivo);
+
+        arquivo = new Arquivo(file);
+
+        System.out.println("Antigo nome: " + arquivo.getFile().getName());
+
+        System.out.println(arquivo.getFile().renameTo(new File(nomeDiretorio, novoNomeArquivo)));
+
+        System.out.println("Novo nome: " + arquivo.getFile().getName());
+
+    }
+
+    public void removerArquivo(String nomeDiretorio, String nomeArquivo){
+        hd.getMapaDeBits().imprimirMapa();
+        hd.impirmirListaDiretorios();
+        hd.removerArquivoBloco(nomeDiretorio, nomeArquivo);
+        hd.getMapaDeBits().imprimirMapa();
+        hd.impirmirListaDiretorios();
+    }
+
 
     public Disco getHd() {
         return hd;

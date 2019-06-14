@@ -50,19 +50,8 @@ public class Disco implements Serializable {
             this.vetor = vetor;
         }
 
-//inseir no listaBlocos
-        // remover do listaBlocos
-        // copiar listaBlocos
-        // limpar listaBlocos
-
     }
 
-    public void armazenarArquivo(Arquivo arquivo) {
-        arquivo.imprimirArquivo();
-        byte[] bytes = SerializationUtils.serialize(arquivo.getFile());
-        listaArquivos.add(arquivo);
-//        inserNoBloco(0, bytes);
-    }
 
     public void criarBlocos(int tamanhoBloco, int qtdeBlocos) {
         for (int i = 0; i < qtdeBlocos; i++)
@@ -70,7 +59,7 @@ public class Disco implements Serializable {
     }
 
 
-    public List<Integer> inserirBytesBloco(byte[] bytes, int posicaoVetorBytes, List<Integer> listaEnderecos) {
+    public List<Integer> inserirBytesArquivoBloco(byte[] bytes, int posicaoVetorBytes, List<Integer> listaEnderecos) {
         if ((bytes.length / tamanhoBloco) > mapaDeBits.qtdeBlocosLivres()) {
             System.err.println("Não existe blocos suficientes para armazenar o arquivo, por favor apague algum arquivo!");
             return null;
@@ -97,14 +86,18 @@ public class Disco implements Serializable {
         }
         mapaDeBits.inserir(posicaoLivre);
         listaEnderecos.add(posicaoLivre);
-        inserirBytesBloco(bytes, posicaoVetorBytes, listaEnderecos);
+        inserirBytesArquivoBloco(bytes, posicaoVetorBytes, listaEnderecos);
         return listaEnderecos;
     }
 
-    public File buscarBytesBloco(String nomeDiretorio, String nomeArquivo) {
+    public File buscarBytesArquivoBloco(String nomeDiretorio, String nomeArquivo) {
 
         Diretorio diretorio = buscarDiretorio(nomeDiretorio);
-        Diretorio.Info info = buscarInfo(diretorio, nomeArquivo);
+        Info info = buscarInfo(diretorio, nomeArquivo);
+
+        if(info == null){
+            return null;
+        }
 
         byte[] bytes = new byte[info.getInode().getTamanhoArquivo()];
 
@@ -124,21 +117,55 @@ public class Disco implements Serializable {
                 return diretorio;
             }
         }
-        System.out.println("nao encontrou diretorio");
         return null;
     }
 
-    public Diretorio.Info buscarInfo(Diretorio diretorio, String nomeArquivo) {
-        System.out.println(nomeArquivo);
-        for (Diretorio.Info info : diretorio.getListaInfos()) {
-            System.out.println(info.getNomeArquivo());
+    public Integer buscarIndiceDiretorio(String nomeDiretorio) {
+        int indice = 0;
+        for (Diretorio diretorio : listaDiretorios) {
+            if (diretorio.getNomeDiretorio().equals(nomeDiretorio)) {
+                return indice;
+            }
+            indice++;
+        }
+        return null;
+    }
+
+    public Info buscarInfo(Diretorio diretorio, String nomeArquivo) {
+        for (Info info : diretorio.getListaInfos()) {
             if (info.getNomeArquivo().equals(nomeArquivo)) {
                 return info;
             }
         }
-        System.out.println("Nao encontrou info");
         return null;
     }
+
+    /* Não remove os bytes em si, somente seta para 0 no mapa de bits os blocos do arquivo. */
+    public void removerArquivoBloco(String nomeDiretorio, String nomeArquivo){
+
+        Integer indice;
+
+        Diretorio diretorio = buscarDiretorio(nomeDiretorio);
+
+        if(diretorio != null){
+            Info info = buscarInfo(diretorio, nomeArquivo);
+            if(info != null){
+                for(Integer integer : info.getInode().getListaEnderecos()){
+                    System.out.println(integer);
+                    System.out.println(mapaDeBits.getMapa().get(integer));
+                    mapaDeBits.remover(integer);
+                    System.out.println(mapaDeBits.getMapa().get(integer));
+                }
+
+                indice = buscarIndiceDiretorio(nomeDiretorio);
+
+                if(indice != null){
+                    listaDiretorios.get(indice).removerInfo(nomeArquivo);
+                }
+            }
+        }
+    }
+
 
     public void addInode(Inode inode) {
         listaInodes.add(inode);
@@ -147,38 +174,6 @@ public class Disco implements Serializable {
     public void addDiretorio(Diretorio diretorio) {
         listaDiretorios.add(diretorio);
     }
-
-    //retorna se o listaBlocos foi todo preenchido ou não.
-/*    public boolean inserNoBloco(int endereco, byte[] dado) {
-        int j = 0;
-        for (int i = 0; i < dado.length; i++) {
-            listaBlocos.get(endereco).vetor[j++] = dado[i];
-            if (j == tamanhoBloco) {
-                superBloco.setQtdeBlocosLivres(superBloco.getQtdeBlocos() - 1);
-                return true;
-            }
-        }
-        listaBlocos.get(endereco).vetor[j] = -126; //Final do dado
-        return false;
-    }
-
-    public byte[] buscarBloco(int endereco) {
-        byte [] saida;
-        int i;
-        for (i = 0; i < tamanhoBloco; i++) {
-            if(listaBlocos.get(endereco).vetor[i] == -126){
-                i--;
-                break;
-            }
-        }
-        System.out.println(i);
-        saida = new byte[i];
-        for (i = 0; i < saida.length; i++) {
-            saida[i] = listaBlocos.get(endereco).vetor[i];
-
-        }
-        return listaBlocos.get(endereco).vetor;
-    }*/
 
     public void imprimirListaInodes() {
         for (Inode inode : listaInodes) {
@@ -194,22 +189,16 @@ public class Disco implements Serializable {
         }
     }
 
-    /*public void impirmirListaDiretorios(){
+    public void impirmirListaDiretorios(){
         for(Diretorio diretorio : listaDiretorios){
             System.out.println("Nome diretorio: " + diretorio.getNomeDiretorio());
-            System.out.println("Nome arquivo: " + diretorio.getNomeArquivo());
-            System.out.println("Informações I-Node: ");
-            System.out.println("Data Criado: " + diretorio.getInode().getCriado());
-            System.out.println("Data Modificado: " + diretorio.getInode().getModificado());
-            System.out.println("Data Acessado: " + diretorio.getInode().getAcessado());
-            System.out.println("Tamanho Arquivo: " + diretorio.getInode().getTamanhoArquivo());
-            System.out.println("Lista de Endereços: ");
-            for(Integer integer : diretorio.getInode().getListaEnderecos()){
-                System.out.print(integer + " ");
+            for (Info info : diretorio.getListaInfos()
+                 ) {
+                System.out.println("Nome arquivo: " + info.getNomeArquivo());
             }
             System.out.println();
         }
-    }*/
+    }
 
     public int getTamanhoDisco() {
         return tamanhoDisco;

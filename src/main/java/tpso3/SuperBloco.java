@@ -4,14 +4,14 @@ public class SuperBloco {
 
     private int numeroMagico;
     private int tamanhoBloco;
-    private int qtdeBlocos;
+    private int qtdeBlocosTotais;
     private int qtdeBlocosLivres;
 
-    public SuperBloco(int tamanhoBloco, int qtdeBlocos) {
+    public SuperBloco(int tamanhoBloco, int qtdeBlocosTotais) {
         this.numeroMagico = 12345;
         this.tamanhoBloco = tamanhoBloco;
-        this.qtdeBlocos = qtdeBlocos;
-        this.qtdeBlocosLivres = qtdeBlocos;
+        this.qtdeBlocosTotais = qtdeBlocosTotais;
+        this.qtdeBlocosLivres = qtdeBlocosTotais;
     }
 
     public int getNumeroMagico() {
@@ -30,12 +30,12 @@ public class SuperBloco {
         this.tamanhoBloco = tamanhoBloco;
     }
 
-    public int getQtdeBlocos() {
-        return qtdeBlocos;
+    public int getQtdeBlocosTotais() {
+        return qtdeBlocosTotais;
     }
 
-    public void setQtdeBlocos(int qtdeBlocos) {
-        this.qtdeBlocos = qtdeBlocos;
+    public void setQtdeBlocosTotais(int qtdeBlocosTotais) {
+        this.qtdeBlocosTotais = qtdeBlocosTotais;
     }
 
     public int getQtdeBlocosLivres() {

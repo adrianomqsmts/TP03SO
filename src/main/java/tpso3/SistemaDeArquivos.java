@@ -28,12 +28,20 @@ public class SistemaDeArquivos implements Serializable{
             Arquivo arquivo = new Arquivo(file);
             Diretorio.Info info;
             inode = new Inode(arquivo.serializar().length, hd.inserirBytesBloco(arquivo.serializar(), 0, listaEnderecos));
-            diretorio = new Diretorio(file.getPath().replace(file.getName(),""));
-            info = new Diretorio.Info(file.getName(), inode);
-            diretorio.addInfo(info);
-            hd.addInode(inode);
-            hd.imprimirListaInodes();
-            hd.addDiretorio(diretorio);
+            if(hd.buscarDiretorio(file.getPath().replace(file.getName(),"")) == null){
+                diretorio = new Diretorio(file.getPath().replace(file.getName(),""));
+                info = new Diretorio.Info(file.getName(), inode);
+                diretorio.addInfo(info);
+                hd.addInode(inode);
+                hd.addDiretorio(diretorio);
+            }else{
+                info = new Diretorio.Info(file.getName(), inode);
+                hd.buscarDiretorio(file.getPath().replace(file.getName(),"")).getListaInfos().add(info);
+            }
+
+
+//            hd.imprimirListaInodes();
+
             //hd.impirmirListaDiretorios();
 
             return arquivo;

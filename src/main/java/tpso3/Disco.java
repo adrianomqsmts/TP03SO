@@ -26,75 +26,73 @@ public class Disco implements Serializable {
         this.listaDiretorios = new ArrayList<Diretorio>();
         this.listaInodes = new ArrayList<Inode>();
         this.listaArquivos = new ArrayList<Arquivo>();
-        this.mapaDeBits = new MapaDeBits((tamanhoDisco/tamanhoBloco));
-        this.superBloco = new SuperBloco(tamanhoBloco, (tamanhoDisco/tamanhoBloco));
+        this.mapaDeBits = new MapaDeBits((tamanhoDisco / tamanhoBloco));
+        this.superBloco = new SuperBloco(tamanhoBloco, (tamanhoDisco / tamanhoBloco));
         //this.diretorioRaiz = new Diretorio("/");
-        this.mapaDeBits.criarMapa((tamanhoDisco/tamanhoBloco));
-        criarBlocos(tamanhoBloco, (tamanhoDisco/tamanhoBloco));
+        this.mapaDeBits.criarMapa((tamanhoDisco / tamanhoBloco));
+        criarBlocos(tamanhoBloco, (tamanhoDisco / tamanhoBloco));
         //inserNoBloco(0, SerializationUtils.serialize(diretorioRaiz));
     }
 
-    private class Bloco implements Serializable{
+    private class Bloco implements Serializable {
 
-        byte[] vetor;
+        List<Byte> vetor;
 
         Bloco(int tamanhoBloco) {
-            this.vetor = new byte[tamanhoBloco];
+            this.vetor = new ArrayList<Byte>(tamanhoBloco);
         }
 
-        public byte[] getVetor() {
+        public List<Byte> getVetor() {
             return vetor;
         }
 
-        public void setVetor(byte[] vetor) {
+        public void setVetor(List<Byte> vetor) {
             this.vetor = vetor;
         }
 
-        //inseir no listaBlocos
+//inseir no listaBlocos
         // remover do listaBlocos
         // copiar listaBlocos
         // limpar listaBlocos
 
     }
 
-    public void armazenarArquivo(Arquivo arquivo){
+    public void armazenarArquivo(Arquivo arquivo) {
         arquivo.imprimirArquivo();
         byte[] bytes = SerializationUtils.serialize(arquivo.getFile());
         listaArquivos.add(arquivo);
-        inserNoBloco(0, bytes);
+//        inserNoBloco(0, bytes);
     }
 
-    public void criarBlocos(int tamanhoBloco, int qtdeBlocos){
+    public void criarBlocos(int tamanhoBloco, int qtdeBlocos) {
         for (int i = 0; i < qtdeBlocos; i++)
             listaBlocos.add(new Bloco(tamanhoBloco));
     }
 
 
-    public List<Integer> inserirBytesBloco(byte[] bytes, int posicaoVetorBytes, List<Integer> listaEnderecos){
-        if((bytes.length/tamanhoBloco) > mapaDeBits.qtdeBlocosLivres()){
+    public List<Integer> inserirBytesBloco(byte[] bytes, int posicaoVetorBytes, List<Integer> listaEnderecos) {
+        if ((bytes.length / tamanhoBloco) > mapaDeBits.qtdeBlocosLivres()) {
             System.err.println("Não existe blocos suficientes para armazenar o arquivo, por favor apague algum arquivo!");
             return null;
         }
         int posicaoLivre = mapaDeBits.pegarPosicaoLivre();
-        if(posicaoLivre == -1){
+        if (posicaoLivre == -1) {
             System.err.println("Não existe blocos livres, por favor apague algum arquivo!");
             return null;
         }
-        for(int i = 0; i < tamanhoBloco; i++){
+        for (int i = 0; i < tamanhoBloco; i++) {
             /*System.out.println("Tamanho Bloco: " + tamanhoBloco);
             System.out.println("Posição livre: " + posicaoLivre);
             System.out.println("Posição Vetor Bytes: " + posicaoVetorBytes);
             System.out.println("Tamanho bytes: " + bytes.length);
             System.out.println("i: " + i);*/
-            listaBlocos.get(posicaoLivre).vetor[i] = bytes[posicaoVetorBytes];
+            listaBlocos.get(posicaoLivre).vetor.add(bytes[posicaoVetorBytes]);
             posicaoVetorBytes++;
-            if(posicaoVetorBytes == bytes.length){
+            if (posicaoVetorBytes == bytes.length) {
                 mapaDeBits.inserir(posicaoLivre);
                 listaEnderecos.add(posicaoLivre);
-//                for(Integer integer : listaEnderecos){
-//                    System.out.println(integer);
-//                }
                 return listaEnderecos;
+
             }
         }
         mapaDeBits.inserir(posicaoLivre);
@@ -103,26 +101,26 @@ public class Disco implements Serializable {
         return listaEnderecos;
     }
 
-    public File buscarBytesBloco(String nomeDiretorio, String nomeArquivo){
+    public File buscarBytesBloco(String nomeDiretorio, String nomeArquivo) {
 
         Diretorio diretorio = buscarDiretorio(nomeDiretorio);
         Diretorio.Info info = buscarInfo(diretorio, nomeArquivo);
 
         byte[] bytes = new byte[info.getInode().getTamanhoArquivo()];
 
-        for(int i = 0; i < bytes.length ; i++){
-            for(int k = 0; k < info.getInode().getListaEnderecos().size(); k++){
-                for(int j = 0; j < tamanhoBloco; j++){ // pegar o tamanho correto
-                    bytes[i] = listaBlocos.get(info.getInode().getListaEnderecos().get(k)).vetor[j];
-                }
+        int i = 0;
+        for (int k = 0; k < info.getInode().getListaEnderecos().size(); k++) {
+            for (int j = 0; j < listaBlocos.get(info.getInode().getListaEnderecos().get(k)).vetor.size(); j++) {
+                bytes[i] = listaBlocos.get(info.getInode().getListaEnderecos().get(k)).vetor.get(j);
+                i++;
             }
         }
         return (File) SerializationUtils.deserialize(bytes);
     }
 
-    public Diretorio buscarDiretorio(String nomeDiretorio){
-        for(Diretorio diretorio : listaDiretorios){
-            if(diretorio.getNomeDiretorio().equals(nomeDiretorio)){
+    public Diretorio buscarDiretorio(String nomeDiretorio) {
+        for (Diretorio diretorio : listaDiretorios) {
+            if (diretorio.getNomeDiretorio().equals(nomeDiretorio)) {
                 return diretorio;
             }
         }
@@ -130,11 +128,11 @@ public class Disco implements Serializable {
         return null;
     }
 
-    public Diretorio.Info buscarInfo(Diretorio diretorio, String nomeArquivo){
+    public Diretorio.Info buscarInfo(Diretorio diretorio, String nomeArquivo) {
         System.out.println(nomeArquivo);
-        for(Diretorio.Info info : diretorio.getListaInfos()){
+        for (Diretorio.Info info : diretorio.getListaInfos()) {
             System.out.println(info.getNomeArquivo());
-            if(info.getNomeArquivo().equals(nomeArquivo)){
+            if (info.getNomeArquivo().equals(nomeArquivo)) {
                 return info;
             }
         }
@@ -142,16 +140,16 @@ public class Disco implements Serializable {
         return null;
     }
 
-    public void addInode(Inode inode){
+    public void addInode(Inode inode) {
         listaInodes.add(inode);
     }
 
-    public void addDiretorio(Diretorio diretorio){
+    public void addDiretorio(Diretorio diretorio) {
         listaDiretorios.add(diretorio);
     }
 
     //retorna se o listaBlocos foi todo preenchido ou não.
-    public boolean inserNoBloco(int endereco, byte[] dado) {
+/*    public boolean inserNoBloco(int endereco, byte[] dado) {
         int j = 0;
         for (int i = 0; i < dado.length; i++) {
             listaBlocos.get(endereco).vetor[j++] = dado[i];
@@ -180,16 +178,16 @@ public class Disco implements Serializable {
 
         }
         return listaBlocos.get(endereco).vetor;
-    }
+    }*/
 
-    public void imprimirListaInodes(){
-        for(Inode inode : listaInodes){
+    public void imprimirListaInodes() {
+        for (Inode inode : listaInodes) {
             System.out.println("Data Criado: " + inode.getCriado());
             System.out.println("Data Modificado: " + inode.getModificado());
             System.out.println("Data Acessado: " + inode.getAcessado());
             System.out.println("Tamanho Arquivo: " + inode.getTamanhoArquivo());
             System.out.println("Lista de Endereços: ");
-            for(Integer integer : inode.getListaEnderecos()){
+            for (Integer integer : inode.getListaEnderecos()) {
                 System.out.print(integer + " ");
             }
             System.out.println();

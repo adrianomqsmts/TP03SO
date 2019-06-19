@@ -1,5 +1,3 @@
-package tpso3;
-
 import org.apache.commons.lang3.SerializationUtils;
 
 import java.io.*;
@@ -28,21 +26,6 @@ public class Arquivo implements Serializable{
     public byte[] serializar() {
         return SerializationUtils.serialize(file);
     }
-
-/*    public byte[] getBytes() {
-        int             len     = (int)file.length();
-        byte[]          sendBuf = new byte[len];
-        FileInputStream inFile;
-        try {
-            inFile = new FileInputStream(file);
-            inFile.read(sendBuf, 0, len);
-        } catch (FileNotFoundException fnfex) {
-
-        } catch (IOException ioex) {
-
-        }
-        return sendBuf;
-    }*/
 
     public File getFile() {
         return file;

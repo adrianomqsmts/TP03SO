@@ -1,0 +1,12 @@
+CD novo
+O /novo
+CD teste
+O /novo/teste
+CD cassio
+RD cassio cas
+CA arquivo.txt
+O /novo/teste/cas
+O /novo/teste/arquivo.txt
+MA arquivo.txt /novo/teste/cas
+O /novo/teste/cas
+O /novo/teste/cas/arquivo.txt

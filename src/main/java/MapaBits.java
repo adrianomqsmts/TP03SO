@@ -1,13 +1,12 @@
-package tpso3;
-
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapaDeBits {
+public class MapaBits implements Serializable {
 
     private List<Boolean> mapa;
 
-    public MapaDeBits(int tamanho) {
+    public MapaBits(int tamanho) {
         this.mapa = new ArrayList<Boolean>(tamanho);
         criarMapa(tamanho);
     }
@@ -26,7 +25,6 @@ public class MapaDeBits {
     public int pegarPosicaoLivre(){
         for (int i = 0; i < mapa.size();i++){
             if(isLivre(i)){
-//                System.out.println("Retornando posição: " + i);
                 return i;
             }
 
@@ -55,7 +53,6 @@ public class MapaDeBits {
     public void imprimirMapa(){
         int i = 0;
         for (Boolean booleano : mapa ) {
-
             System.out.println("Bloco " + i + ": " + booleano);
             i++;
         }

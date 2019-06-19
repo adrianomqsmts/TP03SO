@@ -1,5 +1,3 @@
-package tpso3;
-
 public class SuperBloco {
 
     private int numeroMagico;

@@ -1,7 +1,4 @@
-package tpso3;
-
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -9,14 +6,16 @@ public class Inode implements Serializable {
     private final Date criado;
     private Date modificado;
     private Date acessado;
-    private int tamanhoArquivo;
-    private List<Integer> listaEnderecos;
 
-    public Inode(int tamanhoArquivo, List<Integer> listaEnderecos) {
+    private List<Integer> listaEnderecos;
+    private int tamanho;
+    private int enderecoBlocoDemaisEnderecos;
+
+    public Inode(int tamanho, List<Integer> listaEnderecos) {
         this.criado = new Date(System.currentTimeMillis());
         this.modificado = new Date(System.currentTimeMillis());
         this.acessado = new Date(System.currentTimeMillis());
-        this.tamanhoArquivo = tamanhoArquivo;
+        this.tamanho = tamanho;
         this.listaEnderecos = listaEnderecos;
     }
 
@@ -56,12 +55,19 @@ public class Inode implements Serializable {
         this.acessado = Acessado;
     }
 
-    public int getTamanhoArquivo() {
-        return tamanhoArquivo;
+    public int getTamanho() {
+        return tamanho;
     }
 
-    public void setTamanhoArquivo(int tamanhoArquivo) {
-        this.tamanhoArquivo = tamanhoArquivo;
+    public void setTamanho(int tamanho) {
+        this.tamanho = tamanho;
     }
 
+    public int getEnderecoBlocoDemaisEnderecos() {
+        return enderecoBlocoDemaisEnderecos;
+    }
+
+    public void setEnderecoBlocoDemaisEnderecos(int enderecoBlocoDemaisEnderecos) {
+        this.enderecoBlocoDemaisEnderecos = enderecoBlocoDemaisEnderecos;
+    }
 }

@@ -1,5 +1,7 @@
 CD novo
 O /novo
+CA comandos.txt
+O /novo/comandos.txt
 CD teste
 O /novo/teste
 CD cassio
@@ -10,3 +12,6 @@ O /novo/teste/arquivo.txt
 MA arquivo.txt /novo/teste/cas
 O /novo/teste/cas
 O /novo/teste/cas/arquivo.txt
+O /novo/teste
+DD cas
+O /novo/teste

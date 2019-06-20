@@ -2,36 +2,48 @@ import org.apache.commons.lang3.SerializationUtils;
 
 import java.io.*;
 
-public class Arquivo implements Serializable{
+public class Arquivo implements Serializable {
 
-    private File file;
+    private String texto;
+    private String nome;
 
-    public Arquivo(File file) {
-        this.file = file;
-    }
-
-    public void imprimirArquivo(){
-        try{
+    public void lerFile(File file) {
+        texto = "";
+        nome = file.getName();
+        try {
             BufferedReader br = new BufferedReader(new FileReader(file));
-            while(br.ready()){
+            while (br.ready()) {
                 String linha = br.readLine();
-                System.out.println(linha);
+                texto = texto.concat(linha);
+                texto = texto.concat("\n");
             }
             br.close();
-        }catch(IOException ioe){
+        } catch (IOException ioe) {
             ioe.printStackTrace();
         }
     }
 
+    public void imprimirArquivo() {
+        System.out.println(texto);
+    }
+
     public byte[] serializar() {
-        return SerializationUtils.serialize(file);
+        return SerializationUtils.serialize(texto);
     }
 
-    public File getFile() {
-        return file;
+    public String getTexto() {
+        return texto;
     }
 
-    public void setFile(File file) {
-        this.file = file;
+    public void setTexto(String texto) {
+        this.texto = texto;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 }

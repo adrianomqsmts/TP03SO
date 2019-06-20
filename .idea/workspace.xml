@@ -2,31 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7b65d9c9-48a1-408f-8a56-e96b045fa21f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Diretorio.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/SistemaArquivos.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/comandos.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TP03SO.iml" beforeDir="false" afterPath="$PROJECT_DIR$/TP03SO.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.xml" beforeDir="false" afterPath="$PROJECT_DIR$/build.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nbproject/build-impl.xml" beforeDir="false" afterPath="$PROJECT_DIR$/nbproject/build-impl.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nbproject/private/private.xml" beforeDir="false" afterPath="$PROJECT_DIR$/nbproject/private/private.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nbproject/project.properties" beforeDir="false" afterPath="$PROJECT_DIR$/nbproject/project.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nbproject/project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/nbproject/project.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/arquivos/arquivo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arquivo.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/arquivos/teste.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/teste.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tpso3/Arquivo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Arquivo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tpso3/Diretorio.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tpso3/Disco.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Disco.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tpso3/Info.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tpso3/Inode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Inode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tpso3/MapaDeBits.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MapaBits.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tpso3/SistemaDeArquivos.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tpso3/SuperBloco.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SuperBloco.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/tpso3/TPSO3.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Arquivo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Arquivo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Diretorio.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Diretorio.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Disco.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Disco.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Inode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Inode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/MapaBits.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MapaBits.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SistemaArquivos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SistemaArquivos.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/arquivo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/arquivo.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/comandos.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/comandos.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/arquivo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/arquivo.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/comandos.txt" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/comandos.txt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -58,24 +46,24 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/SistemaArquivos.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="246">
-              <caret line="81" column="34" lean-forward="true" selection-start-line="81" selection-start-column="34" selection-end-line="81" selection-end-column="34" />
+            <state relative-caret-position="340">
+              <caret line="20" column="5" lean-forward="true" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="5" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#24202#24203#0" expanded="true" />
-                <element signature="e#24227#24228#0" expanded="true" />
-                <element signature="e#24262#24263#0" expanded="true" />
-                <element signature="e#24290#24291#0" expanded="true" />
-                <element signature="e#24351#24352#0" expanded="true" />
-                <element signature="e#24401#24402#0" expanded="true" />
-                <element signature="e#24617#24618#0" expanded="true" />
-                <element signature="e#24659#24660#0" expanded="true" />
-                <element signature="e#24728#24729#0" expanded="true" />
-                <element signature="e#24790#24791#0" expanded="true" />
-                <element signature="e#24833#24834#0" expanded="true" />
-                <element signature="e#24873#24874#0" expanded="true" />
-                <element signature="e#24938#24939#0" expanded="true" />
-                <element signature="e#24996#24997#0" expanded="true" />
+                <element signature="e#33956#33957#0" expanded="true" />
+                <element signature="e#33981#33982#0" expanded="true" />
+                <element signature="e#34016#34017#0" expanded="true" />
+                <element signature="e#34044#34045#0" expanded="true" />
+                <element signature="e#34105#34106#0" expanded="true" />
+                <element signature="e#34155#34156#0" expanded="true" />
+                <element signature="e#34371#34372#0" expanded="true" />
+                <element signature="e#34413#34414#0" expanded="true" />
+                <element signature="e#34482#34483#0" expanded="true" />
+                <element signature="e#34544#34545#0" expanded="true" />
+                <element signature="e#34587#34588#0" expanded="true" />
+                <element signature="e#34627#34628#0" expanded="true" />
+                <element signature="e#34692#34693#0" expanded="true" />
+                <element signature="e#34750#34751#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -84,20 +72,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/comandos.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" column="29" lean-forward="true" selection-start-line="11" selection-start-column="29" selection-end-line="11" selection-end-column="29" />
+            <state relative-caret-position="204">
+              <caret line="12" column="17" lean-forward="true" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/Arquivo.java">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/arquivo.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="9" column="25" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="328">
+              <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
             </state>
           </provider>
         </entry>
@@ -106,7 +91,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/Diretorio.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="357">
-              <caret line="21" column="39" selection-start-line="21" selection-start-column="39" selection-end-line="21" selection-end-column="39" />
+              <caret line="21" column="39" selection-end-line="86" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -117,11 +102,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Inode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="21" column="49" selection-start-line="21" selection-start-column="49" selection-end-line="21" selection-end-column="49" />
+            <state relative-caret-position="222">
+              <caret line="32" column="54" selection-end-line="95" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#755#756#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -130,36 +114,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Disco.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1173">
-              <caret line="76" column="5" selection-start-line="76" selection-start-column="5" selection-end-line="76" selection-end-column="5" />
+            <state relative-caret-position="561">
+              <caret line="39" column="5" selection-end-line="161" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1295#1296#0" expanded="true" />
-                <element signature="e#1331#1332#0" expanded="true" />
-                <element signature="e#4391#4392#0" expanded="true" />
-                <element signature="e#4426#4427#0" expanded="true" />
-                <element signature="e#4462#4463#0" expanded="true" />
-                <element signature="e#4497#4498#0" expanded="true" />
-                <element signature="e#4540#4541#0" expanded="true" />
-                <element signature="e#4574#4575#0" expanded="true" />
-                <element signature="e#4633#4634#0" expanded="true" />
-                <element signature="e#4679#4680#0" expanded="true" />
-                <element signature="e#4716#4717#0" expanded="true" />
-                <element signature="e#4747#4748#0" expanded="true" />
-                <element signature="e#4797#4798#0" expanded="true" />
-                <element signature="e#4837#4838#0" expanded="true" />
-                <element signature="e#4878#4879#0" expanded="true" />
-                <element signature="e#4911#4912#0" expanded="true" />
-                <element signature="e#4967#4968#0" expanded="true" />
-                <element signature="e#5011#5012#0" expanded="true" />
-                <element signature="e#5059#5060#0" expanded="true" />
-                <element signature="e#5098#5099#0" expanded="true" />
-                <element signature="e#5167#5168#0" expanded="true" />
-                <element signature="e#5223#5224#0" expanded="true" />
-                <element signature="e#5265#5266#0" expanded="true" />
-                <element signature="e#5301#5302#0" expanded="true" />
-                <element signature="e#5361#5362#0" expanded="true" />
-                <element signature="e#5411#5412#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -168,8 +126,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/MapaBits.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="544">
-              <caret line="34" column="16" selection-start-line="34" selection-start-column="16" selection-end-line="34" selection-end-column="16" />
+            <state relative-caret-position="204">
+              <caret line="14" column="21" lean-forward="true" selection-start-line="14" selection-start-column="21" selection-end-line="14" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -177,8 +135,22 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="20" column="51" lean-forward="true" selection-start-line="20" selection-start-column="51" selection-end-line="20" selection-end-column="51" />
+            <state relative-caret-position="153">
+              <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/Arquivo.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="204">
+              <caret line="12" column="13" lean-forward="true" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#742#743#0" expanded="true" />
+                <element signature="e#800#801#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -215,12 +187,15 @@
         <option value="$PROJECT_DIR$/src/main/java/tpso3/MapaDeBits.java" />
         <option value="$PROJECT_DIR$/src/main/java/tpso3/TPSO3.java" />
         <option value="$PROJECT_DIR$/src/main/java/MapaDeBits.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Inode.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Disco.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Main.java" />
-        <option value="$PROJECT_DIR$/src/main/java/Diretorio.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/arquivo.txt" />
         <option value="$PROJECT_DIR$/src/main/resources/comandos.txt" />
         <option value="$PROJECT_DIR$/src/main/java/SistemaArquivos.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Diretorio.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Inode.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Disco.java" />
+        <option value="$PROJECT_DIR$/src/main/java/MapaBits.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Arquivo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/Main.java" />
       </list>
     </option>
   </component>
@@ -255,6 +230,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -291,8 +268,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -374,12 +349,15 @@
       <workItem from="1560824486096" duration="8408000" />
       <workItem from="1560832986198" duration="1802000" />
       <workItem from="1560864370404" duration="6034000" />
-      <workItem from="1560915208998" duration="5157000" />
+      <workItem from="1560915208998" duration="5226000" />
+      <workItem from="1560949670792" duration="4909000" />
+      <workItem from="1560987221856" duration="9401000" />
+      <workItem from="1561034039656" duration="8226000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="124058000" />
+    <option name="totallyTimeSpent" value="146663000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -394,7 +372,7 @@
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.30257186" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2912254" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -403,7 +381,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3289689" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49848714" weight="0.5433715" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4977307" weight="0.5433715" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -412,14 +390,14 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Terminal" order="10" />
-      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.5015129" side_tool="true" weight="0.5433715" />
+      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.50226927" side_tool="true" weight="0.5433715" />
       <window_info anchor="bottom" id="Messages" order="12" sideWeight="0.49848714" weight="0.32569557" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.24962178" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="right" id="Database" order="4" weight="0.32980332" />
-      <window_info anchor="right" id="Theme Preview" order="5" />
+      <window_info anchor="right" id="Theme Preview" order="4" />
+      <window_info anchor="right" id="Database" order="5" weight="0.32980332" />
       <window_info anchor="right" id="Maven" order="6" weight="0.32980332" />
       <window_info anchor="right" id="Capture Analysis" order="7" />
       <window_info anchor="right" id="Palette&#9;" order="8" />
@@ -440,13 +418,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret column="32" selection-start-column="32" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/arquivo.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="16" selection-start-column="16" selection-end-column="16" />
         </state>
       </provider>
     </entry>
@@ -539,60 +510,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Inode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="21" column="49" selection-start-line="21" selection-start-column="49" selection-end-line="21" selection-end-column="49" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#755#756#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Disco.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1173">
-          <caret line="76" column="5" selection-start-line="76" selection-start-column="5" selection-end-line="76" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1295#1296#0" expanded="true" />
-            <element signature="e#1331#1332#0" expanded="true" />
-            <element signature="e#4391#4392#0" expanded="true" />
-            <element signature="e#4426#4427#0" expanded="true" />
-            <element signature="e#4462#4463#0" expanded="true" />
-            <element signature="e#4497#4498#0" expanded="true" />
-            <element signature="e#4540#4541#0" expanded="true" />
-            <element signature="e#4574#4575#0" expanded="true" />
-            <element signature="e#4633#4634#0" expanded="true" />
-            <element signature="e#4679#4680#0" expanded="true" />
-            <element signature="e#4716#4717#0" expanded="true" />
-            <element signature="e#4747#4748#0" expanded="true" />
-            <element signature="e#4797#4798#0" expanded="true" />
-            <element signature="e#4837#4838#0" expanded="true" />
-            <element signature="e#4878#4879#0" expanded="true" />
-            <element signature="e#4911#4912#0" expanded="true" />
-            <element signature="e#4967#4968#0" expanded="true" />
-            <element signature="e#5011#5012#0" expanded="true" />
-            <element signature="e#5059#5060#0" expanded="true" />
-            <element signature="e#5098#5099#0" expanded="true" />
-            <element signature="e#5167#5168#0" expanded="true" />
-            <element signature="e#5223#5224#0" expanded="true" />
-            <element signature="e#5265#5266#0" expanded="true" />
-            <element signature="e#5301#5302#0" expanded="true" />
-            <element signature="e#5361#5362#0" expanded="true" />
-            <element signature="e#5411#5412#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/MapaBits.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="34" column="16" selection-start-line="34" selection-start-column="16" selection-end-line="34" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="101">
@@ -600,17 +517,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/arquivo.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="20" column="51" lean-forward="true" selection-start-line="20" selection-start-column="51" selection-end-line="20" selection-end-column="51" />
+        <state relative-caret-position="328">
+          <caret line="24" lean-forward="true" selection-start-line="24" selection-end-line="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/comandos.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="17" lean-forward="true" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Diretorio.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
-          <caret line="21" column="39" selection-start-line="21" selection-start-column="39" selection-end-line="21" selection-end-column="39" />
+          <caret line="21" column="39" selection-end-line="86" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Inode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="222">
+          <caret line="32" column="54" selection-end-line="95" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Disco.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="39" column="5" selection-end-line="161" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -619,41 +563,50 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Arquivo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="9" column="25" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
+        <state relative-caret-position="204">
+          <caret line="12" column="13" lean-forward="true" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#742#743#0" expanded="true" />
+            <element signature="e#800#801#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/comandos.txt">
+    <entry file="file://$PROJECT_DIR$/src/main/java/MapaBits.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="29" lean-forward="true" selection-start-line="11" selection-start-column="29" selection-end-line="11" selection-end-column="29" />
+        <state relative-caret-position="204">
+          <caret line="14" column="21" lean-forward="true" selection-start-line="14" selection-start-column="21" selection-end-line="14" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/SistemaArquivos.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="246">
-          <caret line="81" column="34" lean-forward="true" selection-start-line="81" selection-start-column="34" selection-end-line="81" selection-end-column="34" />
+        <state relative-caret-position="340">
+          <caret line="20" column="5" lean-forward="true" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#24202#24203#0" expanded="true" />
-            <element signature="e#24227#24228#0" expanded="true" />
-            <element signature="e#24262#24263#0" expanded="true" />
-            <element signature="e#24290#24291#0" expanded="true" />
-            <element signature="e#24351#24352#0" expanded="true" />
-            <element signature="e#24401#24402#0" expanded="true" />
-            <element signature="e#24617#24618#0" expanded="true" />
-            <element signature="e#24659#24660#0" expanded="true" />
-            <element signature="e#24728#24729#0" expanded="true" />
-            <element signature="e#24790#24791#0" expanded="true" />
-            <element signature="e#24833#24834#0" expanded="true" />
-            <element signature="e#24873#24874#0" expanded="true" />
-            <element signature="e#24938#24939#0" expanded="true" />
-            <element signature="e#24996#24997#0" expanded="true" />
+            <element signature="e#33956#33957#0" expanded="true" />
+            <element signature="e#33981#33982#0" expanded="true" />
+            <element signature="e#34016#34017#0" expanded="true" />
+            <element signature="e#34044#34045#0" expanded="true" />
+            <element signature="e#34105#34106#0" expanded="true" />
+            <element signature="e#34155#34156#0" expanded="true" />
+            <element signature="e#34371#34372#0" expanded="true" />
+            <element signature="e#34413#34414#0" expanded="true" />
+            <element signature="e#34482#34483#0" expanded="true" />
+            <element signature="e#34544#34545#0" expanded="true" />
+            <element signature="e#34587#34588#0" expanded="true" />
+            <element signature="e#34627#34628#0" expanded="true" />
+            <element signature="e#34692#34693#0" expanded="true" />
+            <element signature="e#34750#34751#0" expanded="true" />
           </folding>
         </state>
       </provider>

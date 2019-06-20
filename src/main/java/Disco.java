@@ -1,3 +1,5 @@
+import org.apache.commons.lang3.SerializationUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -6,23 +8,17 @@ public class Disco {
     private final int tamanhoDisco;
     private final int tamanhoBloco;
     private List<Bloco> listaBlocos;
-    private List<Bloco> listaBlocosInode;
     private MapaBits mapaBits;
-    private MapaBits mapaBitsInode;
     private SuperBloco superBloco;
 
     public Disco(int tamanhoDisco, int tamanhoBloco) {
         this.tamanhoBloco = tamanhoBloco;
         this.tamanhoDisco = tamanhoDisco;
-        this.listaBlocos = new ArrayList<Bloco>();
-        this.listaBlocosInode = new ArrayList<Bloco>();
-        this.mapaBits = new MapaBits((tamanhoDisco / tamanhoBloco) / 2);
-        this.mapaBitsInode = new MapaBits((tamanhoDisco / tamanhoBloco) / 2);
+        this.listaBlocos = new ArrayList<>();
+        this.mapaBits = new MapaBits((tamanhoDisco / tamanhoBloco));
         this.superBloco = new SuperBloco(tamanhoBloco, (tamanhoDisco / tamanhoBloco));
-        this.mapaBits.criarMapa((tamanhoDisco / tamanhoBloco) / 2);
-        this.mapaBitsInode.criarMapa((tamanhoDisco / tamanhoBloco) / 2);
-        criarBlocos(tamanhoBloco, (tamanhoDisco / tamanhoBloco) / 2);
-        criarBlocosInode((tamanhoDisco / tamanhoBloco) / 2);
+        this.mapaBits.criarMapa((tamanhoDisco / tamanhoBloco));
+        criarBlocos(tamanhoBloco, (tamanhoDisco / tamanhoBloco));
     }
 
     private class Bloco {
@@ -30,7 +26,7 @@ public class Disco {
         private List<Byte> vetor;
 
         Bloco(int tamanhoBloco) {
-            this.vetor = new ArrayList<Byte>(tamanhoBloco);
+            this.vetor = new ArrayList<>(tamanhoBloco);
         }
 
         public List<Byte> getVetor() {
@@ -48,16 +44,10 @@ public class Disco {
             listaBlocos.add(new Bloco(tamanhoBloco));
     }
 
-    public void criarBlocosInode(int qtdeBlocos) {
-        for (int i = 0; i < qtdeBlocos; i++)
-            listaBlocosInode.add(new Bloco(1000));
-    }
-
-
     public List<Integer> inserirBytesBloco(byte[] bytes, int posicaoVetorBytes, List<Integer> listaEnderecos) {
         int posicaoLivre = mapaBits.pegarPosicaoLivre();
         if (posicaoLivre == -1) {
-            System.err.println("Não existe blocos livres, por favor apague algum arquivo!");
+            System.out.println("Não existe blocos livres, por favor apague algum arquivo!");
             return null;
         }
         listaBlocos.get(posicaoLivre).getVetor().clear();
@@ -76,28 +66,23 @@ public class Disco {
         return listaEnderecos;
     }
 
-    public List<Integer> inserirBytesBlocoInode(byte[] bytes, int posicaoVetorBytes, List<Integer> listaEnderecos) {
-        int posicaoLivre = mapaBitsInode.pegarPosicaoLivre();
+    public Integer inserirBytesInodeBloco(byte[] bytes) {
+        int posicaoLivre = mapaBits.pegarPosicaoLivre();
         if (posicaoLivre == -1) {
-            System.err.println("Não existe blocos de inode livres, por favor apague algum arquivo!");
+            System.out.println("Não existe blocos de inode livres, por favor apague algum arquivo!");
             return null;
         }
-        listaBlocosInode.get(posicaoLivre).getVetor().clear();
-        for (int i = 0; i < 1000; i++) {
-            listaBlocosInode.get(posicaoLivre).getVetor().add(bytes[posicaoVetorBytes]);
-            posicaoVetorBytes++;
-            if (posicaoVetorBytes == bytes.length) {
-                mapaBitsInode.inserir(posicaoLivre);
-                listaEnderecos.add(posicaoLivre);
-                return listaEnderecos;
-
-            }
+        listaBlocos.get(posicaoLivre).getVetor().clear();
+        for (byte aByte : bytes) {
+            listaBlocos.get(posicaoLivre).getVetor().add(aByte);
         }
-        return listaEnderecos;
+        mapaBits.inserir(posicaoLivre);
+        return posicaoLivre;
     }
 
-    public byte[] buscarBytesBloco(Inode inode){
+    public byte[] buscarBytesBloco(Inode inode) {
         byte[] bytes = new byte[inode.getTamanho()];
+        List<Integer> listaEnderecosRestantes = new ArrayList<>();
         int i = 0;
         for (int k = 0; k < inode.getListaEnderecos().size(); k++) {
             for (int j = 0; j < listaBlocos.get(inode.getListaEnderecos().get(k)).getVetor().size(); j++) {
@@ -105,16 +90,39 @@ public class Disco {
                 i++;
             }
         }
+        if (inode.getEnderecoBlocoDemaisEnderecos() != -1) {
+            listaEnderecosRestantes = buscarBytesRestantes(inode.getEnderecoBlocoDemaisEnderecos());
+            for (int k = 0; k < listaEnderecosRestantes.size(); k++) {
+                for (int j = 0; j < listaBlocos.get(listaEnderecosRestantes.get(k)).getVetor().size(); j++) {
+                    bytes[i] = listaBlocos.get(listaEnderecosRestantes.get(k)).getVetor().get(j);
+                    i++;
+                }
+            }
+        }
         return bytes;
     }
 
-    public byte[] buscarBytesInodeBloco(int posicao){
-        byte[] bytes = new byte[1000];
+    public List<Integer> buscarBytesRestantes(int posicao) {
+        byte[] bytes = new byte[tamanhoBloco];
+        List<Integer> listaEnderecosRestantes = new ArrayList<>();
         int i = 0;
-            for (int j = 0; j < listaBlocosInode.get(posicao).getVetor().size(); j++) {
-                bytes[i] = listaBlocosInode.get(posicao).getVetor().get(j);
-                i++;
-            }
+        for (int j = 0; j < listaBlocos.get(posicao).getVetor().size(); j++) {
+            bytes[i] = listaBlocos.get(posicao).getVetor().get(j);
+            i++;
+        }
+        listaEnderecosRestantes = (List<Integer>) SerializationUtils.deserialize(bytes);
+
+        return listaEnderecosRestantes;
+
+    }
+
+    public byte[] buscarBytesInodeBloco(int posicao) {
+        byte[] bytes = new byte[tamanhoBloco];
+        int i = 0;
+        for (int j = 0; j < listaBlocos.get(posicao).getVetor().size(); j++) {
+            bytes[i] = listaBlocos.get(posicao).getVetor().get(j);
+            i++;
+        }
         return bytes;
     }
 
@@ -150,19 +158,4 @@ public class Disco {
         this.superBloco = superBloco;
     }
 
-    public List<Bloco> getListaBlocosInode() {
-        return listaBlocosInode;
-    }
-
-    public void setListaBlocosInode(List<Bloco> listaBlocosInode) {
-        this.listaBlocosInode = listaBlocosInode;
-    }
-
-    public MapaBits getMapaBitsInode() {
-        return mapaBitsInode;
-    }
-
-    public void setMapaBitsInode(MapaBits mapaBitsInode) {
-        this.mapaBitsInode = mapaBitsInode;
-    }
 }

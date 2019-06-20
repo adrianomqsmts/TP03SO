@@ -11,20 +11,20 @@ public class MapaBits implements Serializable {
         criarMapa(tamanho);
     }
 
-    public void criarMapa(int tamanho){
+    public void criarMapa(int tamanho) {
         mapa.clear();
-        for(int i = 0; i < tamanho; i++)
+        for (int i = 0; i < tamanho; i++)
             mapa.add(false);
     }
 
-    public void inserir(int posicao){
+    public void inserir(int posicao) {
         mapa.remove(posicao);
         mapa.add(posicao, true);
     }
 
-    public int pegarPosicaoLivre(){
-        for (int i = 0; i < mapa.size();i++){
-            if(isLivre(i)){
+    public int pegarPosicaoLivre() {
+        for (int i = 0; i < mapa.size(); i++) {
+            if (isLivre(i)) {
                 return i;
             }
 
@@ -32,27 +32,27 @@ public class MapaBits implements Serializable {
         return -1;
     }
 
-    public void remover(int posicao){
+    public void remover(int posicao) {
         mapa.remove(posicao);
         mapa.add(posicao, false);
     }
 
-    public boolean isLivre(int posicao){
+    public boolean isLivre(int posicao) {
         return !mapa.get(posicao);
     }
 
-    public int qtdeBlocosLivres(){
-        int count  = 0;
-        for(Boolean bool : mapa){
-            if(!bool)
+    public int qtdeBlocosLivres() {
+        int count = 0;
+        for (Boolean bool : mapa) {
+            if (!bool)
                 count++;
         }
         return count;
     }
 
-    public void imprimirMapa(){
+    public void imprimirMapa() {
         int i = 0;
-        for (Boolean booleano : mapa ) {
+        for (Boolean booleano : mapa) {
             System.out.println("Bloco " + i + ": " + booleano);
             i++;
         }

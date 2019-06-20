@@ -2,8 +2,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Diretorio implements Serializable{
-    
+public class Diretorio implements Serializable {
+
     private String nomeDiretorio;
     private List<Info> tabela;
     private int enderecoInode;

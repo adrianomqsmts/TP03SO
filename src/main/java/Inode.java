@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Inode implements Serializable {
-    private final Date criado;
+    private Date criado;
     private Date modificado;
     private Date acessado;
 
@@ -55,6 +55,10 @@ public class Inode implements Serializable {
 
     public void setListaEnderecos(List<Integer> listaEnderecos) {
         this.listaEnderecos = listaEnderecos;
+    }
+
+    public void setCriado(Date criado) {
+        this.criado = criado;
     }
 
     public Date getCriado() {

@@ -1,17 +1,18 @@
+TD 50000
+TB 500
 CD novo
-O /novo
-CA comandos.txt
-O /novo/comandos.txt
-CD teste
-O /novo/teste
-CD cassio
-RD cassio cas
-CA arquivo.txt
-O /novo/teste/cas
-O /novo/teste/arquivo.txt
-MA arquivo.txt /novo/teste/cas
-O /novo/teste/cas
-O /novo/teste/cas/arquivo.txt
-O /novo/teste
-DD cas
-O /novo/teste
+CD dir
+CD new
+O /dir
+I
+CA latim.txt
+I
+CA teste.txt
+O /dir/teste.txt
+MA teste.txt /new
+O /new/teste.txt
+CA tp.txt
+O /dir
+O /dir/tp.txt
+O /new/teste.txt
+I

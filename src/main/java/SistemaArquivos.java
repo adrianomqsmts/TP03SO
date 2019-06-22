@@ -1,28 +1,33 @@
 import org.apache.commons.lang3.SerializationUtils;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+
+import static java.lang.System.exit;
 
 public class SistemaArquivos implements Serializable {
 
     private Disco hd;
-    private List<Integer> listaEnderecosDiretorioRaiz;
     private Inode inodeDiretorioAtual;
     private Inode inodeDiretorioRaiz;
     private Inode inodeArquivoAtual;
+    private SuperBloco superBloco;
 
-    public SistemaArquivos(int tamanhoDisco, int tamanhoBloco) {
-        this.hd = new Disco(tamanhoDisco, tamanhoBloco);
-        this.listaEnderecosDiretorioRaiz = new ArrayList<>();
-        this.inodeDiretorioRaiz = criarDiretorioRaiz("/");
-        this.inodeDiretorioAtual = this.inodeDiretorioRaiz;
+    public SistemaArquivos() {
+
     }
 
     public void executarArquivoComandos() {
 
         File arqComandos = new File("C:\\Users\\cassi\\OneDrive\\Documentos\\GitHub\\TP03SO\\src\\main\\resources\\comandos.txt");
+
+        int tamanhoDisco = 0;
+        int tamanhoBloco = 0;
+        int i = 0;
 
         if (arqComandos.exists()) {
             try {
@@ -31,6 +36,12 @@ public class SistemaArquivos implements Serializable {
                     String linha = br.readLine();
                     List<String> comando = Arrays.asList(linha.split(" "));
                     switch (comando.get(0)) {
+                        case "TD":
+                            tamanhoDisco = Integer.parseInt(comando.get(1));
+                            break;
+                        case "TB":
+                            tamanhoBloco = Integer.parseInt(comando.get(1));
+                            break;
                         case "CD":
                             criarDiretorio(comando.get(1));
                             break;
@@ -46,15 +57,25 @@ public class SistemaArquivos implements Serializable {
                         case "RA":
                             renomearArquivo(comando.get(1), comando.get(2));
                             break;
-                        case "DD":
-                            //removerDiretorio(comando.get(1));
-                            break;
                         case "DA":
                             removerArquivo(comando.get(1));
                             break;
                         case "MA":
                             moverArquivo(comando.get(1), comando.get(2));
                             break;
+                        case "I":
+                            imprimirSuperBloco();
+                            break;
+                    }
+                    i++;
+                    if(i == 2){
+                        if(tamanhoDisco < tamanhoBloco || tamanhoBloco < 500){
+                            System.out.println("Tamanho do disco deve ser maior que o do bloco e o bloco deve ter mais de 500 bytes!");
+                            exit(1);
+                        }else{
+                            criarSuperBloco(tamanhoDisco, tamanhoBloco);
+                            criarHd(tamanhoDisco, tamanhoBloco);
+                        }
                     }
 
                 }
@@ -65,10 +86,29 @@ public class SistemaArquivos implements Serializable {
         }
     }
 
+    public void criarSuperBloco(int tamanhoDisco, int tamanhoBloco){
+        superBloco = new SuperBloco(tamanhoBloco, (tamanhoDisco/tamanhoBloco));
+    }
+
+    public void imprimirSuperBloco(){
+        System.out.println("Número Mágico: " + superBloco.getNumeroMagico());
+        System.out.println("Tamanho dos Blocos: " + superBloco.getTamanhoBloco());
+        System.out.println("Quantidade Total de Blocos: " + superBloco.getQtdeBlocosTotais());
+        System.out.println("Quantidade Total de Blocos Livres: " + superBloco.getQtdeBlocosLivres());
+        System.out.println();
+    }
+
+    public void criarHd(int tamanhoDisco, int tamanhoBloco){
+        this.hd = new Disco(tamanhoDisco, tamanhoBloco);
+        this.inodeDiretorioRaiz = criarDiretorioRaiz("/");
+        this.inodeDiretorioAtual = this.inodeDiretorioRaiz;
+    }
+
     public void moverArquivo(String nomeArquivo, String caminho) throws IOException {
 
         Diretorio diretorioAtual;
         String caminhoDiretorioAtual;
+        Inode inode;
 
         System.out.println("Movendo arquivo!");
 
@@ -76,13 +116,15 @@ public class SistemaArquivos implements Serializable {
 
         caminhoDiretorioAtual = diretorioAtual.getCaminho();
 
-        removerArquivo(nomeArquivo);
+        inode = removerArquivo(nomeArquivo);
 
         abrirDiretorioArquivo(caminho);
 
-        criarArquivo(nomeArquivo);
+        criarArquivoMover(nomeArquivo, inode);
 
         abrirDiretorioArquivo(caminhoDiretorioAtual);
+
+        superBloco.setQtdeBlocosLivres(hd.getMapaBits().qtdeBlocosLivres());
 
     }
 
@@ -91,7 +133,6 @@ public class SistemaArquivos implements Serializable {
         Diretorio diretorio = new Diretorio(nomeDiretorio, hd.getMapaBits().pegarPosicaoLivre() + 1, nomeDiretorio);
 
         List<Integer> listaEnderecosDiretorio = new ArrayList<>();
-
 
         /* Inserindo Diretorio no bloco. */
         listaEnderecosDiretorio = hd.inserirBytesBloco(SerializationUtils.serialize(diretorio), 0, listaEnderecosDiretorio);
@@ -109,6 +150,8 @@ public class SistemaArquivos implements Serializable {
 
         /* Inserindo I-node no bloco. */
         hd.inserirBytesInodeBloco(SerializationUtils.serialize(inode));
+
+        superBloco.setQtdeBlocosLivres(hd.getMapaBits().qtdeBlocosLivres());
 
         return inode;
 
@@ -134,12 +177,22 @@ public class SistemaArquivos implements Serializable {
             diretorioRaiz = (Diretorio) SerializationUtils.deserialize(hd.buscarBytesBloco(inodeDiretorioRaiz));
 
             for (Diretorio.Info info : diretorioRaiz.getTabela()) {
+                if (indice == lista.size()) {
+                    return;
+                }
+
                 if (info.getNome().equals(lista.get(indice))) {
                     inode = (Inode) SerializationUtils.deserialize(hd.buscarBytesInodeBloco(info.getEnderecoBlocoInode()));
-                    abrirDiretorioArquivoAux(inode, lista, ++indice);
+                    if (info.isArquivo()) {
+                        abrirArquivoPorInode(inode, info.getNome());
+                        return;
+                    }else{
+                        abrirDiretorioArquivoAux(inode, lista, ++indice);
+                    }
                 }
             }
         }
+
 
         /*if(!encontrou){
             System.out.println("ERRO! Caminho '" + caminho + "' inválido!");
@@ -150,7 +203,6 @@ public class SistemaArquivos implements Serializable {
     public void abrirDiretorioArquivoAux(Inode inode, List<String> lista, int indice) {
 
         Inode inode1;
-        Diretorio diretorio = (Diretorio) SerializationUtils.deserialize(hd.buscarBytesBloco(inode));
 
         /* Não esquecer de usar return */
         if (indice == lista.size()) {
@@ -158,6 +210,8 @@ public class SistemaArquivos implements Serializable {
             imprimirDiretorioAtual();
             return;
         }
+
+        Diretorio diretorio = (Diretorio) SerializationUtils.deserialize(hd.buscarBytesBloco(inode));
 
         for (Diretorio.Info info : diretorio.getTabela()) {
             if (indice == lista.size()) {
@@ -294,6 +348,8 @@ public class SistemaArquivos implements Serializable {
         hd.getMapaBits().remover(diretorioAtual.getEnderecoInode());
         hd.inserirBytesInodeBloco(SerializationUtils.serialize(inodeDiretorioAtual));
 
+        superBloco.setQtdeBlocosLivres(hd.getMapaBits().qtdeBlocosLivres());
+
         System.out.println("Diretório '" + novoDiretorio.getNomeDiretorio() + "' criado com sucesso no caminho '" + diretorioAtual.getCaminho() + "'!\n");
     }
 
@@ -336,6 +392,7 @@ public class SistemaArquivos implements Serializable {
 
 //                inodeDiretorioARenomear.setListaEnderecos(novaListaEnderecosDiretorioRenomeado);
                 inodeDiretorioARenomear.setTamanho(SerializationUtils.serialize(diretorioARenomear).length);
+                inodeDiretorioARenomear.setModificado(new Date(System.currentTimeMillis()));
 
                 List<Integer> listaRestante = new ArrayList<>();
                 List<Integer> listaRestanteAux = new ArrayList<>();
@@ -390,6 +447,8 @@ public class SistemaArquivos implements Serializable {
         }
         if (!encontrou)
             System.out.println("ERRO AO RENOMEAR DIRETÓRIO! Não existe diretorio com este nome!");
+
+        superBloco.setQtdeBlocosLivres(hd.getMapaBits().qtdeBlocosLivres());
     }
 
 //    public void removerDiretorio(String nomeDiretorio){
@@ -566,9 +625,7 @@ public class SistemaArquivos implements Serializable {
                 listaRestante = inodeArquivo.verificarLista(listaEnderecosNovoArquivo);
 
                 if (listaRestante != null) {
-                    System.out.println("Tamanho lista demais endereços: " + SerializationUtils.serialize((Serializable) listaRestante).length);
                     listaRestanteAux = hd.inserirBytesBloco(SerializationUtils.serialize((Serializable) listaRestante), 0, listaRestanteAux);
-                    System.out.println("Quantidade de enderecos lista: " + listaRestanteAux.size());
                     inodeArquivo.setEnderecoBlocoDemaisEnderecos(listaRestanteAux.get(0));
                 }
 
@@ -599,12 +656,99 @@ public class SistemaArquivos implements Serializable {
                 hd.getMapaBits().remover(diretorioAtual.getEnderecoInode());
                 hd.inserirBytesInodeBloco(SerializationUtils.serialize(inodeDiretorioAtual));
 
-                System.out.println("Arquivo '" + file.getName() + "' criado com sucesso no diretório '" + diretorioAtual.getNomeDiretorio() + "' \n");
+                System.out.println("Arquivo '" + file.getName() + "' criado com sucesso no diretório '" + diretorioAtual.getNomeDiretorio() + "' de caminho '" + diretorioAtual.getCaminho() + "' !\n");
             }
 
         } else {
             System.out.println("Erro ao criar arquivo!");
         }
+        superBloco.setQtdeBlocosLivres(hd.getMapaBits().qtdeBlocosLivres());
+    }
+
+
+    public void criarArquivoMover(String nomeArquivo, Inode inodeArquivoRemovido) throws IOException {
+
+        String caminhoArquivo;
+
+        caminhoArquivo = "C:\\Users\\cassi\\OneDrive\\Documentos\\GitHub\\TP03SO\\src\\main\\resources\\" + nomeArquivo;
+
+        Inode inodeArquivo;
+        Diretorio diretorioAtual;
+        List<Integer> listaEnderecosNovoArquivo = new ArrayList<Integer>();
+        Integer enderecoInodeNovoArquivo;
+        List<Integer> novalistaEnderecosDiretorioAtual = new ArrayList<Integer>();
+        List<Integer> novalistaEnderecosInodeDiretorioAtual = new ArrayList<Integer>();
+
+        File file = new File(caminhoArquivo);
+
+        boolean arqExiste = file.exists();
+        boolean arquivoExiste = false;
+
+        if (arqExiste) {
+
+            diretorioAtual = (Diretorio) SerializationUtils.deserialize(hd.buscarBytesBloco(inodeDiretorioAtual));
+
+            for (Diretorio.Info info : diretorioAtual.getTabela()) {
+                if (info.isArquivo() & info.getNome().equals(file.getName())) {
+                    arquivoExiste = true;
+                }
+            }
+
+            if (!arquivoExiste) {
+
+                Arquivo arquivo = new Arquivo();
+                arquivo.lerFile(file);
+
+                listaEnderecosNovoArquivo = hd.inserirBytesBloco(arquivo.serializar(), 0, listaEnderecosNovoArquivo);
+
+                inodeArquivo = new Inode(arquivo.serializar().length);
+                inodeArquivo.setAcessado(inodeArquivoRemovido.getAcessado());
+                inodeArquivo.setModificado(new Date(System.currentTimeMillis()));
+                inodeArquivo.setCriado(inodeArquivoRemovido.getCriado());
+
+                List<Integer> listaRestante = new ArrayList<>();
+                List<Integer> listaRestanteAux = new ArrayList<>();
+                listaRestante = inodeArquivo.verificarLista(listaEnderecosNovoArquivo);
+
+                if (listaRestante != null) {
+                    listaRestanteAux = hd.inserirBytesBloco(SerializationUtils.serialize((Serializable) listaRestante), 0, listaRestanteAux);
+                    inodeArquivo.setEnderecoBlocoDemaisEnderecos(listaRestanteAux.get(0));
+                }
+
+                enderecoInodeNovoArquivo = hd.inserirBytesInodeBloco(SerializationUtils.serialize(inodeArquivo));
+
+                Diretorio.Info info = new Diretorio.Info(arquivo.getNome(), true, enderecoInodeNovoArquivo);
+
+                diretorioAtual.getTabela().add(info);
+
+                /* Atualizando Diretorio Atual no disco */
+                for (Integer integer : inodeDiretorioAtual.getListaEnderecos()) {
+                    hd.getMapaBits().remover(integer);
+                }
+
+                novalistaEnderecosDiretorioAtual = hd.inserirBytesBloco(SerializationUtils.serialize(diretorioAtual), 0, novalistaEnderecosDiretorioAtual);
+
+//                inodeDiretorioAtual.setListaEnderecos(novalistaEnderecosDiretorioAtual);
+                inodeDiretorioAtual.setTamanho(SerializationUtils.serialize(diretorioAtual).length);
+
+                listaRestante = inodeDiretorioAtual.verificarLista(novalistaEnderecosDiretorioAtual);
+
+                if (listaRestante != null) {
+                    listaRestanteAux = hd.inserirBytesBloco(SerializationUtils.serialize((Serializable) listaRestante), 0, listaRestanteAux);
+                    inodeDiretorioAtual.setEnderecoBlocoDemaisEnderecos(listaRestanteAux.get(0));
+                }
+
+                /* Atualizando I-node Diretorio Atual no disco */
+                hd.getMapaBits().remover(diretorioAtual.getEnderecoInode());
+                hd.inserirBytesInodeBloco(SerializationUtils.serialize(inodeDiretorioAtual));
+
+                System.out.println("Arquivo '" + file.getName() + "' criado com sucesso no diretório '" + diretorioAtual.getNomeDiretorio() + "' de caminho '" + diretorioAtual.getCaminho() + "' !\n");
+            }
+
+        } else {
+            System.out.println("Erro ao criar arquivo!");
+        }
+        superBloco.setQtdeBlocosLivres(hd.getMapaBits().qtdeBlocosLivres());
     }
 
 //    public void abrirArquivo(String nomeArquivo) {
@@ -642,11 +786,17 @@ public class SistemaArquivos implements Serializable {
         Arquivo arquivo;
         texto = (String) SerializationUtils.deserialize(hd.buscarBytesBloco(inode));
         arquivo = new Arquivo();
+        inode.setAcessado(new Date(System.currentTimeMillis()));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         arquivo.setTexto(texto);
+        System.out.println("Atributos do Arquivo " + nomeArquivo + " : ");
+        System.out.println("Data de criação: " + sdf.format(inode.getCriado()) );
+        System.out.println("Data de modificação: " + sdf.format(inode.getModificado()));
+        System.out.println("Data de acesso: " + sdf.format(inode.getAcessado()));
+        System.out.println();
         System.out.println("Abrindo arquivo '" + nomeArquivo + "'...!\n");
         arquivo.imprimirArquivo();
         System.out.println("Fim do arquivo '" + nomeArquivo + "'...!\n");
-
     }
 
     public void renomearArquivo(String nomeArquivo, String novoNomeArquivo) {
@@ -667,19 +817,19 @@ public class SistemaArquivos implements Serializable {
             if (info.isArquivo() & info.getNome().equals(nomeArquivo)) {
                 encontrou = true;
 
-                inodeArquivoARenomear = (Inode) SerializationUtils.deserialize(hd.buscarBytesInodeBloco(info.getEnderecoBlocoInode()));
+                /*inodeArquivoARenomear = (Inode) SerializationUtils.deserialize(hd.buscarBytesInodeBloco(info.getEnderecoBlocoInode()));
 
-                file = (File) SerializationUtils.deserialize(hd.buscarBytesBloco(inodeArquivoARenomear));
+                *//*file = (File) SerializationUtils.deserialize(hd.buscarBytesBloco(inodeArquivoARenomear));
 
                 file.getName().replace(file.getName(), novoNomeArquivo);
 
-                /* File não muda de nome, logo não é necesário atualiza-lo no disco. */
-                /* Atualizar Arquivo renomeado no disco */
+                *//**//* File não muda de nome, logo não é necesário atualiza-lo no disco. *//**//*
+                *//**//* Atualizar Arquivo renomeado no disco *//**//*
                 for (Integer integer : inodeArquivoARenomear.getListaEnderecos()) {
                     hd.getMapaBits().remover(integer);
-                }
+                }*//*
 
-                novaListaEnderecosArquivoRenomeado = hd.inserirBytesBloco(SerializationUtils.serialize(file), 0, novaListaEnderecosArquivoRenomeado);
+                *//*novaListaEnderecosArquivoRenomeado = hd.inserirBytesBloco(SerializationUtils.serialize(file), 0, novaListaEnderecosArquivoRenomeado);
 
 //                inodeArquivoARenomear.setListaEnderecos(novaListaEnderecosArquivoRenomeado);
                 inodeArquivoARenomear.setTamanho(SerializationUtils.serialize(file).length);
@@ -693,13 +843,13 @@ public class SistemaArquivos implements Serializable {
                     inodeArquivoARenomear.setEnderecoBlocoDemaisEnderecos(listaRestanteAux.get(0));
                 }
 
-                /* Atualizando I-node Arquivo renomeado no disco */
+                *//**//* Atualizando I-node Arquivo renomeado no disco *//**//*
                 hd.getMapaBits().remover(diretorioAtual.getTabela().get(posicaoInfo).getEnderecoBlocoInode());
-
+*//*
                 novoEnderecoInodeArquivoRenomeado = hd.inserirBytesInodeBloco(SerializationUtils.serialize(inodeArquivoARenomear));
-
+*/
                 diretorioAtual.getTabela().get(posicaoInfo).setNome(novoNomeArquivo);
-                diretorioAtual.getTabela().get(posicaoInfo).setEnderecoBlocoInode(novoEnderecoInodeArquivoRenomeado);
+//                diretorioAtual.getTabela().get(posicaoInfo).setEnderecoBlocoInode(novoEnderecoInodeArquivoRenomeado);
 
                 /* Atualizando Diretorio Atual no disco */
                 for (Integer integer : inodeDiretorioAtual.getListaEnderecos()) {
@@ -710,13 +860,14 @@ public class SistemaArquivos implements Serializable {
 
 //                inodeDiretorioAtual.setListaEnderecos(novaListaEnderecosDiretorioAtual);
                 inodeDiretorioAtual.setTamanho(SerializationUtils.serialize(diretorioAtual).length);
+                inodeDiretorioAtual.setModificado(new Date(System.currentTimeMillis()));
 
-                listaRestante = inodeArquivoARenomear.verificarLista(novaListaEnderecosArquivoRenomeado);
-
-                if (listaRestante != null) {
-                    listaRestanteAux = hd.inserirBytesBloco(SerializationUtils.serialize((Serializable) listaRestante), 0, listaRestanteAux);
-                    inodeArquivoARenomear.setEnderecoBlocoDemaisEnderecos(listaRestanteAux.get(0));
-                }
+//                listaRestante = inodeArquivoARenomear.verificarLista(novaListaEnderecosArquivoRenomeado);
+//
+//                if (listaRestante != null) {
+//                    listaRestanteAux = hd.inserirBytesBloco(SerializationUtils.serialize((Serializable) listaRestante), 0, listaRestanteAux);
+//                    inodeArquivoARenomear.setEnderecoBlocoDemaisEnderecos(listaRestanteAux.get(0));
+//                }
 
                 /* Atualizando I-node Diretorio Atual no disco */
                 hd.getMapaBits().remover(diretorioAtual.getEnderecoInode());
@@ -739,12 +890,13 @@ public class SistemaArquivos implements Serializable {
         if (!encontrou)
             System.out.println("ERRO AO RENOMEAR ARQUIVO! Arquivo " + nomeArquivo + " não existe no diretório " + diretorioAtual.getNomeDiretorio());
 
+        superBloco.setQtdeBlocosLivres(hd.getMapaBits().qtdeBlocosLivres());
 
     }
 
-    public void removerArquivo(String nomeArquivo) {
+    public Inode removerArquivo(String nomeArquivo) {
 
-        Inode inodeArquivoARemover;
+        Inode inodeArquivoARemover = null;
         Diretorio diretorioAtual;
         List<Integer> novalistaEnderecosDiretorioAtual = new ArrayList<Integer>();
         List<Integer> novalistaEnderecosInodeDiretorioAtual = new ArrayList<Integer>();
@@ -803,6 +955,9 @@ public class SistemaArquivos implements Serializable {
         } else
             System.out.println("ERRO AO REMOVER ARQUIVO! Arquivo " + nomeArquivo + " não existe no diretório " + diretorioAtual.getNomeDiretorio());
 
+        superBloco.setQtdeBlocosLivres(hd.getMapaBits().qtdeBlocosLivres());
+
+        return inodeArquivoARemover;
 
     }
 
@@ -859,7 +1014,7 @@ public class SistemaArquivos implements Serializable {
         } else
             System.out.println("ERRO AO REMOVER ARQUIVO! Arquivo " + nomeArquivo + " não existe no diretório " + diretorioAtual.getNomeDiretorio());
 
-
+        superBloco.setQtdeBlocosLivres(hd.getMapaBits().qtdeBlocosLivres());
     }
 
 
@@ -869,14 +1024,6 @@ public class SistemaArquivos implements Serializable {
 
     public void setHd(Disco hd) {
         this.hd = hd;
-    }
-
-    public List<Integer> getListaEnderecosDiretorioRaiz() {
-        return listaEnderecosDiretorioRaiz;
-    }
-
-    public void setListaEnderecosDiretorioRaiz(List<Integer> listaEnderecosDiretorioRaiz) {
-        this.listaEnderecosDiretorioRaiz = listaEnderecosDiretorioRaiz;
     }
 
     public Inode getInodeDiretorioAtual() {

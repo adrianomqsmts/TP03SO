@@ -46,7 +46,7 @@ public class Disco {
 
     public List<Integer> inserirBytesBloco(byte[] bytes, int posicaoVetorBytes, List<Integer> listaEnderecos) {
         int posicaoLivre = mapaBits.pegarPosicaoLivre();
-        if (posicaoLivre == -1) {
+        if (posicaoLivre < 0) {
             System.out.println("Não existe blocos livres, por favor apague algum arquivo!");
             return null;
         }
@@ -68,7 +68,7 @@ public class Disco {
 
     public Integer inserirBytesInodeBloco(byte[] bytes) {
         int posicaoLivre = mapaBits.pegarPosicaoLivre();
-        if (posicaoLivre == -1) {
+        if (posicaoLivre < 0) {
             System.out.println("Não existe blocos de inode livres, por favor apague algum arquivo!");
             return null;
         }

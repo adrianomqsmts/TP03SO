@@ -29,7 +29,7 @@ public class MapaBits implements Serializable {
             }
 
         }
-        return -1;
+        return -2;
     }
 
     public void remover(int posicao) {

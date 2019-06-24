@@ -91,6 +91,7 @@ public class SistemaArquivos implements Serializable {
     }
 
     public void imprimirSuperBloco(){
+        System.out.println("Informações do Super Bloco: \n");
         System.out.println("Número Mágico: " + superBloco.getNumeroMagico());
         System.out.println("Tamanho dos Blocos: " + superBloco.getTamanhoBloco());
         System.out.println("Quantidade Total de Blocos: " + superBloco.getQtdeBlocosTotais());
@@ -110,7 +111,7 @@ public class SistemaArquivos implements Serializable {
         String caminhoDiretorioAtual;
         Inode inode;
 
-        System.out.println("Movendo arquivo!");
+        System.out.println("Movendo arquivo '" + nomeArquivo + "'!");
 
         diretorioAtual = (Diretorio) SerializationUtils.deserialize(hd.buscarBytesBloco(inodeDiretorioAtual));
 
@@ -184,7 +185,7 @@ public class SistemaArquivos implements Serializable {
                 if (info.getNome().equals(lista.get(indice))) {
                     inode = (Inode) SerializationUtils.deserialize(hd.buscarBytesInodeBloco(info.getEnderecoBlocoInode()));
                     if (info.isArquivo()) {
-                        abrirArquivoPorInode(inode, info.getNome());
+                        abrirArquivoPorInode(inode, info.getNome(), info.getEnderecoBlocoInode());
                         return;
                     }else{
                         abrirDiretorioArquivoAux(inode, lista, ++indice);
@@ -223,7 +224,7 @@ public class SistemaArquivos implements Serializable {
                 if (info.isArquivo()) {
                     inodeArquivoAtual = inode1;
                     inodeDiretorioAtual = inode;
-                    abrirArquivoPorInode(inode1, info.getNome());
+                    abrirArquivoPorInode(inode1, info.getNome(), info.getEnderecoBlocoInode());
                     return;
                 } else {
                     abrirDiretorioArquivoAux(inode1, lista, ++indice);
@@ -237,7 +238,17 @@ public class SistemaArquivos implements Serializable {
 
         diretorioAtual = (Diretorio) SerializationUtils.deserialize(hd.buscarBytesBloco(inodeDiretorioAtual));
 
-        System.out.println("Diretório '" + diretorioAtual.getNomeDiretorio() + "' esta aberto!!!\n");
+        inodeDiretorioAtual.setAcessado(new Date(System.currentTimeMillis()));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+
+        System.out.println("Diretorio '" + diretorioAtual.getNomeDiretorio() + "' esta aberto!!!\n");
+
+        System.out.println("Atributos do Diretório '" + diretorioAtual.getNomeDiretorio() + "' : ");
+        System.out.println("Data de criação: " + sdf.format(inodeDiretorioAtual.getCriado()) );
+        System.out.println("Data de modificação: " + sdf.format(inodeDiretorioAtual.getModificado()));
+        System.out.println("Data de acesso: " + sdf.format(inodeDiretorioAtual.getAcessado()));
+        System.out.println("Data atual do sistema: " + sdf.format(new Date(System.currentTimeMillis())));
+        System.out.println();
 
         System.out.println("Nome diretório: '" + diretorioAtual.getNomeDiretorio() + "'");
         System.out.println("Caminho do diretório: " + diretorioAtual.getCaminho());
@@ -252,6 +263,10 @@ public class SistemaArquivos implements Serializable {
                 System.out.println("'" + info.getNome() + "'");
         }
 
+        /* Atualizando I-node Diretorio Atual no disco */
+        hd.getMapaBits().remover(diretorioAtual.getEnderecoInode());
+        hd.inserirBytesInodeBloco(SerializationUtils.serialize(inodeDiretorioRaiz));
+
         System.out.println();
     }
 
@@ -261,7 +276,17 @@ public class SistemaArquivos implements Serializable {
 
         diretorio = (Diretorio) SerializationUtils.deserialize(hd.buscarBytesBloco(inodeDiretorioRaiz));
 
+        inodeDiretorioRaiz.setAcessado(new Date(System.currentTimeMillis()));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+
         System.out.println("Diretorio '" + diretorio.getNomeDiretorio() + "' esta aberto!!!\n");
+
+        System.out.println("Atributos do Diretório '" + diretorio.getNomeDiretorio() + "' : ");
+        System.out.println("Data de criação: " + sdf.format(inodeDiretorioRaiz.getCriado()) );
+        System.out.println("Data de modificação: " + sdf.format(inodeDiretorioRaiz.getModificado()));
+        System.out.println("Data de acesso: " + sdf.format(inodeDiretorioRaiz.getAcessado()));
+        System.out.println("Data atual do sistema: " + sdf.format(new Date(System.currentTimeMillis())));
+        System.out.println();
 
         System.out.println("Nome diretório: '" + diretorio.getNomeDiretorio() + "'");
         System.out.println("Caminho do diretório: " + diretorio.getCaminho());
@@ -277,6 +302,10 @@ public class SistemaArquivos implements Serializable {
         }
 
         System.out.println();
+
+        /* Atualizando I-node Diretorio Atual no disco */
+        hd.getMapaBits().remover(diretorio.getEnderecoInode());
+        hd.inserirBytesInodeBloco(SerializationUtils.serialize(inodeDiretorioRaiz));
 
         inodeDiretorioAtual = inodeDiretorioRaiz;
 
@@ -780,7 +809,7 @@ public class SistemaArquivos implements Serializable {
 //
 //    }
 
-    public void abrirArquivoPorInode(Inode inode, String nomeArquivo) {
+    public void abrirArquivoPorInode(Inode inode, String nomeArquivo, int enderecoInode) {
 
         String texto;
         Arquivo arquivo;
@@ -793,10 +822,15 @@ public class SistemaArquivos implements Serializable {
         System.out.println("Data de criação: " + sdf.format(inode.getCriado()) );
         System.out.println("Data de modificação: " + sdf.format(inode.getModificado()));
         System.out.println("Data de acesso: " + sdf.format(inode.getAcessado()));
+        System.out.println("Data atual do sistema: " + sdf.format(new Date(System.currentTimeMillis())));
         System.out.println();
         System.out.println("Abrindo arquivo '" + nomeArquivo + "'...!\n");
         arquivo.imprimirArquivo();
         System.out.println("Fim do arquivo '" + nomeArquivo + "'...!\n");
+
+        /* Atualizando I-node do Arquivo no disco */
+        hd.getMapaBits().remover(enderecoInode);
+        hd.inserirBytesInodeBloco(SerializationUtils.serialize(inode));
     }
 
     public void renomearArquivo(String nomeArquivo, String novoNomeArquivo) {

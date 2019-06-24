@@ -1,18 +1,19 @@
 TD 50000
 TB 500
+I
 CD novo
 CD dir
 CD new
 O /dir
-I
 CA latim.txt
-I
 CA teste.txt
 O /dir/teste.txt
 MA teste.txt /new
 O /new/teste.txt
 CA tp.txt
 O /dir
-O /dir/tp.txt
 O /new/teste.txt
+O /
+RD dir diretorio
+O /diretorio
 I
